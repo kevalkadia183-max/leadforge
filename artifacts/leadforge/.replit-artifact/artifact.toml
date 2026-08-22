@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/leadforge/"
+title = "LeadForge"
+description = "A standalone lead operations workspace for discovering qualified businesses, managing verified lead records, reviewing compliant outreach drafts, and tracking consent, suppression, and provider activity."
+version = "1.0.0"
+id = "artifacts/leadforge"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/leadforge/" ]
+localPort = 18555
+
+[services.development]
+run = "pnpm --filter @workspace/leadforge run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/leadforge", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/leadforge/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18555"
+BASE_PATH = "/leadforge/"
